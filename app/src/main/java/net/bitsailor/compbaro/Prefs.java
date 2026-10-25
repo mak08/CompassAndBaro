@@ -1,4 +1,4 @@
-package net.bitsailor.comparo;
+package net.bitsailor.compbaro;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -18,6 +18,8 @@ public final class Prefs {
     public static final float DEFAULT_HEIGHT_M = 100f;
     private static final String KEY_BG_UNTIL = "background_recording_until";
     public static final long BACKGROUND_RECORDING_MS = 24L * 60 * 60 * 1000;
+    private static final String KEY_TRUE_NORTH = "true_north";
+    private static final String KEY_DECLINATION = "declination_deg";
     private static final String KEY_HEIGHT_M = "manual_height_m";
     private static final String KEY_IMPERIAL = "imperial";
     private static final String KEY_PRESSURE_UNIT = "pressure_unit";
@@ -122,6 +124,14 @@ public final class Prefs {
         sp.edit().putFloat(KEY_HEIGHT_M, meters).apply();
     }
 
+    public boolean isPressureUp() {
+        return sp.getBoolean("pressure_up", true);
+    }
+
+    public void setPressureUp(boolean up) {
+        sp.edit().putBoolean("pressure_up", up).apply();
+    }
+
     public boolean isImperial() {
         return sp.getBoolean(KEY_IMPERIAL, false);
     }
@@ -157,6 +167,32 @@ public final class Prefs {
 
     public void stopBackgroundRecording() {
         sp.edit().putLong(KEY_BG_UNTIL, 0).apply();
+    }
+
+    public boolean isTrueNorthEnabled() {
+        return sp.getBoolean(KEY_TRUE_NORTH, true);
+    }
+
+    /** Returns true once, so the location permission is requested only on the first start. */
+    public boolean consumeFirstLocationPrompt() {
+        if (sp.getBoolean("location_prompted", false)) {
+            return false;
+        }
+        sp.edit().putBoolean("location_prompted", true).apply();
+        return true;
+    }
+
+    public void setTrueNorthEnabled(boolean enabled) {
+        sp.edit().putBoolean(KEY_TRUE_NORTH, enabled).apply();
+    }
+
+    /** Last computed magnetic declination in degrees (east positive), or NaN if unknown. */
+    public float getDeclination() {
+        return sp.getFloat(KEY_DECLINATION, Float.NaN);
+    }
+
+    public void setDeclination(float degrees) {
+        sp.edit().putFloat(KEY_DECLINATION, degrees).apply();
     }
 
     /** Time span shown in the history graph, in minutes. */

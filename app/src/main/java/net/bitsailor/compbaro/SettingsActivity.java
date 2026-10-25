@@ -1,4 +1,4 @@
-package net.bitsailor.comparo;
+package net.bitsailor.compbaro;
 
 import android.os.Bundle;
 import android.text.InputType;
@@ -109,6 +109,22 @@ public class SettingsActivity extends AppCompatActivity {
                 if (ids[i] == id) {
                     prefs.setHistoryMinutes(minutes[i]);
                 }
+            }
+        });
+
+        RadioGroup orientGroup = findViewById(R.id.orientation_group);
+        orientGroup.check(prefs.isPressureUp() ? R.id.orient_pressure : R.id.orient_height);
+        orientGroup.setOnCheckedChangeListener((g, id) ->
+                prefs.setPressureUp(id == R.id.orient_pressure));
+
+        android.widget.CompoundButton trueNorth = findViewById(R.id.true_north_switch);
+        trueNorth.setChecked(prefs.isTrueNorthEnabled());
+        trueNorth.setOnCheckedChangeListener((b, checked) -> {
+            prefs.setTrueNorthEnabled(checked);
+            if (checked && !HeightCalibrator.hasLocationPermission(this)) {
+                requestPermissions(new String[]{
+                        android.Manifest.permission.ACCESS_FINE_LOCATION,
+                        android.Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
             }
         });
 

@@ -1,11 +1,14 @@
-package net.bitsailor.comparo;
+package net.bitsailor.compbaro;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.hardware.GeomagneticField;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -59,6 +62,13 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         applyInsets();
+        prefs = new Prefs(this);
+        if (prefs.isTrueNorthEnabled() && !HeightCalibrator.hasLocationPermission(this)
+                && prefs.consumeFirstLocationPrompt()) {
+            requestPermissions(new String[]{
+                    android.Manifest.permission.ACCESS_FINE_LOCATION,
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+        }
         compass = findViewById(R.id.compass);
         graph = findViewById(R.id.graph);
         heightView = findViewById(R.id.height_value);
@@ -69,7 +79,6 @@ public class MainActivity extends AppCompatActivity
         compassStatusView = findViewById(R.id.status_compass);
         calibrationStatusView = findViewById(R.id.status_calibration);
 
-        prefs = new Prefs(this);
         calibrator = new HeightCalibrator(this, prefs, this);
         sensorManager = getSystemService(SensorManager.class);
         rotationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
@@ -137,12 +146,61 @@ public class MainActivity extends AppCompatActivity
             pressureView.setText(R.string.no_sensor);
             heightView.setText(R.string.no_sensor);
         }
+        updateDeclination();
         smoothedPa = Float.NaN;
         hasPressureData = false;
         calibrator.reset();
         refreshUnits();
         refreshGraph();
         refreshStatus();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        updateDeclination();
+    }
+
+    private void updateDeclination() {
+        if (!prefs.isTrueNorthEnabled()) {
+            compass.setDeclination(Float.NaN);
+            return;
+        }
+        compass.setDeclination(prefs.getDeclination());
+        if (!HeightCalibrator.hasLocationPermission(this)) {
+            return;
+        }
+        LocationManager lm = getSystemService(LocationManager.class);
+        Location best = null;
+        try {
+            for (String provider : lm.getProviders(true)) {
+                Location l = lm.getLastKnownLocation(provider);
+                if (l != null && (best == null || l.getTime() > best.getTime())) {
+                    best = l;
+                }
+            }
+            if (best != null) {
+                applyDeclination(best);
+            } else if (lm.isProviderEnabled(LocationManager.FUSED_PROVIDER)) {
+                lm.getCurrentLocation(LocationManager.FUSED_PROVIDER, null, getMainExecutor(),
+                        location -> {
+                            if (location != null && prefs.isTrueNorthEnabled()) {
+                                applyDeclination(location);
+                            }
+                        });
+            }
+        } catch (SecurityException | IllegalArgumentException ignored) {
+            // No usable location: keep the last known declination, if any.
+        }
+    }
+
+    private void applyDeclination(Location location) {
+        float declination = new GeomagneticField((float) location.getLatitude(),
+                (float) location.getLongitude(),
+                location.hasAltitude() ? (float) location.getAltitude() : 0f,
+                System.currentTimeMillis()).getDeclination();
+        prefs.setDeclination(declination);
+        compass.setDeclination(declination);
     }
 
     @Override

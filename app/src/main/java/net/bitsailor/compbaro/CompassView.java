@@ -1,4 +1,4 @@
-package net.bitsailor.comparo;
+package net.bitsailor.compbaro;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -14,11 +14,14 @@ public class CompassView extends View {
     private final Paint tick = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint text = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint north = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint bearing = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint pointer = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Path pointerPath = new Path();
     private final Path markerPath = new Path();
     private float azimuth;
     private boolean hasData;
+    private float declination;
+    private final Paint trueNorth = new Paint(Paint.ANTI_ALIAS_FLAG);
 
     public CompassView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -32,16 +35,28 @@ public class CompassView extends View {
         text.setColor(fg);
         text.setTextAlign(Paint.Align.CENTER);
         text.setFakeBoldText(true);
+        bearing.setColor(fg);
+        bearing.setTextAlign(Paint.Align.CENTER);
         north.setColor(0xFFE5484D);
         north.setTextAlign(Paint.Align.CENTER);
         north.setFakeBoldText(true);
         pointer.setColor(0xFFC9A227);
+        trueNorth.setColor(0xFFC9A227);
     }
 
     /** @param degrees heading of the device in degrees clockwise from north */
     public void setAzimuth(float degrees) {
         azimuth = degrees;
         hasData = true;
+        invalidate();
+    }
+
+    /**
+     * Aligns the scale with true north. Use 0 to align it with magnetic north.
+     * @param degrees magnetic declination, east positive
+     */
+    public void setDeclination(float degrees) {
+        declination = Float.isNaN(degrees) ? 0f : degrees;
         invalidate();
     }
 
@@ -64,26 +79,43 @@ public class CompassView extends View {
 
         text.setTextSize(unit * 1.8f);
         north.setTextSize(unit * 1.8f);
+        bearing.setTextSize(unit * 1.15f);
 
         canvas.drawCircle(cx, cy, r, ring);
 
         canvas.save();
-        canvas.rotate(-azimuth, cx, cy);
+        canvas.rotate(-azimuth - declination, cx, cy);
         for (int deg = 0; deg < 360; deg += 5) {
             canvas.save();
             canvas.rotate(deg, cx, cy);
             if (deg % 90 == 0) {
                 // Cardinal triangle: same height as a major tick.
-                drawMarker(canvas, cx, cy - r, unit * 0.9f, unit * 0.9f, deg == 0 ? north : tick);
+                drawMarker(canvas, cx, cy - r, unit * 0.9f, unit * 0.9f, tick);
             } else if (deg % 45 == 0) {
                 drawMarker(canvas, cx, cy - r, unit * 0.6f, unit * 0.6f, tick);
             } else {
                 boolean major = deg % 30 == 0;
                 float len = major ? unit * 0.9f : unit * 0.45f;
                 canvas.drawLine(cx, cy - r, cx, cy - r + len, tick);
+                if (major) {
+                    canvas.drawText(Integer.toString(deg), cx, cy - r + unit * 2.5f, bearing);
+                }
             }
             canvas.restore();
         }
+        // True north (the scale's 0) as a bronze triangle.
+        markerPath.reset();
+        markerPath.moveTo(cx, cy - r + unit * 1.0f);
+        markerPath.lineTo(cx - unit * 0.45f, cy - r + unit * 1.8f);
+        markerPath.lineTo(cx + unit * 0.45f, cy - r + unit * 1.8f);
+        markerPath.close();
+        canvas.drawPath(markerPath, trueNorth);
+
+        // Magnetic north lies "declination" degrees west of true north when declination is east.
+        canvas.save();
+        canvas.rotate(-declination, cx, cy);
+        drawMarker(canvas, cx, cy - r, unit * 0.9f, unit * 0.9f, north);
+        canvas.restore();
         for (int i = 0; i < 4; i++) {
             canvas.save();
             canvas.rotate(i * 90, cx, cy);
@@ -103,7 +135,7 @@ public class CompassView extends View {
 
         text.setTextSize(unit * 2.6f);
         String label = hasData
-                ? Math.round((azimuth % 360 + 360) % 360) % 360 + "\u00B0"
+                ? Math.round(((azimuth + declination) % 360 + 360) % 360) % 360 + "\u00B0"
                 : "--";
         canvas.drawText(label, cx, cy + unit * 1f, text);
     }

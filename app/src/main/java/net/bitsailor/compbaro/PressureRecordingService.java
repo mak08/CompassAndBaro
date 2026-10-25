@@ -1,4 +1,4 @@
-package net.bitsailor.comparo;
+package net.bitsailor.compbaro;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -20,7 +20,7 @@ import java.util.Date;
 
 /** Foreground service that records pressure samples while the app is closed. */
 public class PressureRecordingService extends Service implements SensorEventListener {
-    private static final String ACTION_STOP = "net.bitsailor.comparo.STOP_RECORDING";
+    private static final String ACTION_STOP = "net.bitsailor.compbaro.STOP_RECORDING";
     private static final String CHANNEL_ID = "recording";
     private static final int NOTIFICATION_ID = 1;
     private static final int SAMPLING_PERIOD_US = 60_000_000;

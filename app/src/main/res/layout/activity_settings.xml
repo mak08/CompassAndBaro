@@ -97,12 +97,8 @@
         <RadioGroup
             android:id="@+id/timing_group"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
                 <RadioButton
                     android:id="@+id/timing_start"
@@ -119,8 +115,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/timing_continuous" />
-            </LinearLayout>
-        </RadioGroup>
+            </RadioGroup>
 
         <Button
             android:id="@+id/calibrate_button"
@@ -175,6 +170,33 @@
                 android:text="@string/history_24h" />
         </RadioGroup>
 
+        <TextView
+            style="@style/SettingsHeader"
+            android:text="@string/chart_orientation" />
+
+        <RadioGroup
+            android:id="@+id/orientation_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/orient_pressure"
+                style="@style/SettingsOption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/orient_pressure" />
+
+            <RadioButton
+                android:id="@+id/orient_height"
+                style="@style/SettingsOption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/orient_height" />
+        </RadioGroup>
+
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/record_switch"
             android:layout_width="match_parent"
@@ -190,32 +212,46 @@
 
         <TextView
             style="@style/SettingsHeader"
+            android:text="@string/compass" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/true_north_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/true_north" />
+
+        <TextView
+            style="@style/SettingsHeader"
             android:text="@string/pressure_unit" />
 
         <RadioGroup
             android:id="@+id/pressure_unit_group"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/pressure_pa"
                 style="@style/SettingsOption"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="@string/hpa" />
 
             <RadioButton
                 android:id="@+id/pressure_atm"
                 style="@style/SettingsOption"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="@string/atm" />
 
             <RadioButton
                 android:id="@+id/pressure_mmhg"
                 style="@style/SettingsOption"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="@string/mmhg" />
         </RadioGroup>
 
@@ -226,29 +262,24 @@
         <RadioGroup
             android:id="@+id/height_unit_group"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <RadioButton
+                android:id="@+id/height_metric"
+                style="@style/SettingsOption"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_weight="1"
+                android:text="@string/metric_short" />
 
-                <RadioButton
-                    android:id="@+id/height_metric"
-                    style="@style/SettingsOption"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/metric" />
-
-                <RadioButton
-                    android:id="@+id/height_imperial"
-                    style="@style/SettingsOption"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/imperial" />
-            </LinearLayout>
+            <RadioButton
+                android:id="@+id/height_imperial"
+                style="@style/SettingsOption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/imperial_short" />
         </RadioGroup>
     </LinearLayout>
 </ScrollView>

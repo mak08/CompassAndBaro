@@ -3,13 +3,13 @@ plugins {
 }
 
 android {
-    namespace = "net.bitsailor.comparo"
+    namespace = "net.bitsailor.compbaro"
     compileSdk {
         version = release(37)
     }
 
     defaultConfig {
-        applicationId = "net.bitsailor.comparo"
+        applicationId = "net.bitsailor.compbaro"
         minSdk = 31
         targetSdk = 37
         versionCode = 1

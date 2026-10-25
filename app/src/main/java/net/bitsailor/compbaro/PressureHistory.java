@@ -1,4 +1,4 @@
-package net.bitsailor.comparo;
+package net.bitsailor.compbaro;
 
 import android.content.Context;
 

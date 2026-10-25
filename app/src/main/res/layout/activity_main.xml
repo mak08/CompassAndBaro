@@ -29,7 +29,7 @@
         android:layout_height="3dp"
         android:background="@color/brass" />
 
-    <net.bitsailor.comparo.CompassView
+    <net.bitsailor.compbaro.CompassView
         android:id="@+id/compass"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -112,7 +112,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <net.bitsailor.comparo.PressureGraphView
+        <net.bitsailor.compbaro.PressureGraphView
             android:id="@+id/graph"
             android:layout_width="match_parent"
             android:layout_height="0dp"

@@ -16,6 +16,8 @@
     <string name="calibration_gps">GPS altitude</string>
     <string name="calibration_weather">Weather service (sea-level pressure)</string>
     <string name="height_unit">Height unit</string>
+    <string name="metric_short">Metric</string>
+    <string name="imperial_short">Imperial</string>
     <string name="metric">Metric (m)</string>
     <string name="imperial">Imperial (ft)</string>
     <string name="history_span">Pressure history</string>
@@ -23,6 +25,9 @@
     <string name="history_1h">1 hour</string>
     <string name="history_6h">6 hours</string>
     <string name="history_12h">12 hours</string>
+    <string name="chart_orientation">Chart orientation</string>
+    <string name="orient_pressure">Pressure up</string>
+    <string name="orient_height">Height up</string>
     <string name="history_24h">24 hours</string>
     <string name="pressure_unit">Pressure unit</string>
     <string name="hpa">hPa</string>
@@ -40,6 +45,8 @@
     <string name="record_notification_text">Until %1$s (every 10 minutes in the background)</string>
     <string name="record_notification_channel">Pressure recording</string>
     <string name="record_stop">Stop</string>
+    <string name="compass">Compass</string>
+    <string name="true_north">Show true north (declination correction)</string>
     <string name="help">Help</string>
     <string name="baro_ok">Barometer OK</string>
     <string name="baro_waiting">Barometer: waiting</string>
@@ -83,8 +90,14 @@
 <p>When switched on, the barometer is recorded every 10 minutes even while the app is in the background or closed (every 10 seconds while the app is open). Recording switches off automatically after 24 hours; switch it on again to continue. A notification is shown while recording, with a Stop button.</p>
 <p><b>Power:</b> this uses a little more battery. The barometer itself uses very little power, and readings are batched so the phone can sleep between them, but the recording service keeps running permanently and some phones may limit it with battery optimisation. Switch it off when you do not need it. Recording does not resume after a reboot.</p>
 
+<h2>Compass</h2>
+<p>The red triangle marks magnetic north, and the bronze triangle marks true north. With <b>Show true north</b> switched on (the default), the degree scale and the heading readout are aligned with true north; the red triangle then shows where magnetic north is. The difference is the magnetic declination for your location. This needs location permission; the last known location is used and no continuous tracking takes place. Without it, or when the option is off, the scale is aligned with magnetic north.</p>
+
+<h2>Chart orientation</h2>
+<p><b>Pressure up</b> (the default) draws higher pressure towards the top of the chart, so the height scale on the right increases downwards. <b>Height up</b> inverts the chart so that height increases upwards and pressure downwards.</p>
+
 <h2>Pressure unit</h2>
-<p>hPa, atm or mmHg. Applies to the pressure field and the graph. In the graph, pressure increases downwards so that the height scale on the right increases upwards.</p>
+<p>hPa, atm or mmHg. Applies to the pressure field and the graph. </p>
 
 <h2>Height unit</h2>
 <p>Metric (metres) or imperial (feet). Applies to the height field, the manual height and the graph.</p>

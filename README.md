@@ -4,7 +4,7 @@ An Android app that shows a compass and barometric data (pressure and height) on
 
 ## Features
 
-- **Compass** with a rotating dial and a live heading readout, using the rotation-vector sensor.
+- **Compass** with a rotating dial and a live heading readout, using the rotation-vector sensor. By default the scale is aligned with true north using the magnetic declination; a red triangle marks magnetic north and a bronze one true north.
 - **Pressure and height** fields, derived from the device barometer.
 - **Pressure history graph** with pressure (left), height (right) and time (bottom) scales. The span is 30 minutes to 24 hours, and history is stored on the device.
 - **Height calibration:** standard atmosphere, manual height, GPS altitude, or sea-level pressure from a weather service ([Open-Meteo](https://open-meteo.com)). Calibration can run at app start or continuously.

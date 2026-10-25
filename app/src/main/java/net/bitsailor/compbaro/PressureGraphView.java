@@ -1,4 +1,4 @@
-package net.bitsailor.comparo;
+package net.bitsailor.compbaro;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -31,6 +31,7 @@ public class PressureGraphView extends View {
     private List<PressureHistory.Sample> samples = new ArrayList<>();
     private Prefs.PressureUnit unit = Prefs.PressureUnit.PA;
     private boolean imperial;
+    private boolean pressureUp = true;
     private float seaLevelPa = Prefs.STANDARD_SEA_LEVEL_PA;
     private long windowMs = 6 * 60 * MIN;
 
@@ -53,6 +54,7 @@ public class PressureGraphView extends View {
         this.samples = samples;
         this.unit = prefs.getPressureUnit();
         this.imperial = prefs.isImperial();
+        this.pressureUp = prefs.isPressureUp();
         this.seaLevelPa = prefs.getReferencePa();
         this.windowMs = prefs.getHistoryWindowMs();
         invalidate();
@@ -64,6 +66,12 @@ public class PressureGraphView extends View {
 
     private double paAtHeight(double m) {
         return seaLevelPa * Math.pow(1.0 - m / 44330.0, 5.255);
+    }
+
+    /** Maps a pressure to a y coordinate according to the chart orientation. */
+    private float yOf(double pa, double minPa, double maxPa, float top, float bottom) {
+        double f = (pa - minPa) / (maxPa - minPa);
+        return (float) (pressureUp ? bottom - (bottom - top) * f : top + (bottom - top) * f);
     }
 
     @Override
@@ -105,14 +113,13 @@ public class PressureGraphView extends View {
         minPa -= pad;
         maxPa += pad;
 
-        // Pressure grows downwards so that the height (right) scale grows upwards.
         // Left axis: pressure, linear in the display unit.
         double vMin = unit.fromPa(minPa);
         double vMax = unit.fromPa(maxPa);
         double step = Math.max(niceStep((vMax - vMin) / 4), unit.minScaleStep);
         text.setTextAlign(Paint.Align.RIGHT);
         for (double v = Math.ceil(vMin / step) * step; v <= vMax; v += step) {
-            float y = (float) (top + (bottom - top) * (v - vMin) / (vMax - vMin));
+            float y = yOf(v, vMin, vMax, top, bottom);
             canvas.drawLine(left, y, right, y, grid);
             canvas.drawText(formatTick(v, step), left - 4 * density, y + 4 * density, text);
         }
@@ -125,7 +132,7 @@ public class PressureGraphView extends View {
         text.setTextAlign(Paint.Align.LEFT);
         for (double h = Math.ceil(hMin * k / hStep) * hStep; h <= hMax * k; h += hStep) {
             double pa = paAtHeight(h / k);
-            float y = (float) (top + (bottom - top) * (pa - minPa) / (maxPa - minPa));
+            float y = yOf(pa, minPa, maxPa, top, bottom);
             canvas.drawText(formatTick(h, hStep), right + 4 * density, y + 4 * density, text);
         }
 
@@ -137,7 +144,7 @@ public class PressureGraphView extends View {
                 continue;
             }
             float x = left + (right - left) * (s.timeMs - t0) / (float) windowMs;
-            float y = (float) (top + (bottom - top) * (s.pa - minPa) / (maxPa - minPa));
+            float y = yOf(s.pa, minPa, maxPa, top, bottom);
             // Break the line where the app was not recording.
             if (!pen || s.timeMs - prev > 1.5 * PressureHistory.BACKGROUND_INTERVAL_MS) {
                 path.moveTo(x, y);
