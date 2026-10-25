@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="navy_900">#FF0B1F3A</color>
+    <color name="navy_800">#FF12294A</color>
+    <color name="navy_600">#FF2A4A73</color>
+    <color name="sea_foam">#FF2EC4B6</color>
+    <color name="brass">#FFC9A227</color>
+    <color name="signal_red">#FFE5484D</color>
+    <color name="sky_100">#FFEAF1F7</color>
+    <color name="sky_300">#FFB9CBDC</color>
+    <color name="ink">#FF10253F</color>
+</resources>

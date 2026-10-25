@@ -1,0 +1,71 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Compass ring -->
+    <path
+        android:pathData="M54,26a28,28 0,1 1,0 56a28,28 0,1 1,0 -56z"
+        android:strokeWidth="2.5"
+        android:strokeColor="#C9A227" />
+    <!-- Cardinal triangles pointing inward: N (red), E, S, W -->
+    <path
+        android:fillColor="#E5484D"
+        android:pathData="M49.5,26.5h9l-4.5,7z" />
+    <path
+        android:fillColor="#EAF1F7"
+        android:pathData="M81.5,49.5v9l-7,-4.5z" />
+    <path
+        android:fillColor="#EAF1F7"
+        android:pathData="M49.5,81.5h9l-4.5,-7z" />
+    <path
+        android:fillColor="#EAF1F7"
+        android:pathData="M26.5,49.5v9l7,-4.5z" />
+    <!-- Intercardinal triangles -->
+    <group
+        android:pivotX="54"
+        android:pivotY="54"
+        android:rotation="45">
+        <path
+            android:fillColor="#EAF1F7"
+            android:pathData="M51.5,26.5h5l-2.5,4.5z" />
+    </group>
+    <group
+        android:pivotX="54"
+        android:pivotY="54"
+        android:rotation="135">
+        <path
+            android:fillColor="#EAF1F7"
+            android:pathData="M51.5,26.5h5l-2.5,4.5z" />
+    </group>
+    <group
+        android:pivotX="54"
+        android:pivotY="54"
+        android:rotation="225">
+        <path
+            android:fillColor="#EAF1F7"
+            android:pathData="M51.5,26.5h5l-2.5,4.5z" />
+    </group>
+    <group
+        android:pivotX="54"
+        android:pivotY="54"
+        android:rotation="315">
+        <path
+            android:fillColor="#EAF1F7"
+            android:pathData="M51.5,26.5h5l-2.5,4.5z" />
+    </group>
+    <!-- Needle -->
+    <path
+        android:fillColor="#E5484D"
+        android:pathData="M54,38l5,13h-10z" />
+    <path
+        android:fillColor="#EAF1F7"
+        android:pathData="M54,64l5,-13h-10z" />
+    <!-- Pressure history trace -->
+    <path
+        android:pathData="M42,70l4,-2l4,2.5l4,-3.5l4,2l4,-2.5l4,1"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeColor="#2EC4B6" />
+</vector>

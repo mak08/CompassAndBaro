@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/settings"
+                android:textAppearance="?attr/textAppearanceHeadline5" />
+
+            <Button
+                android:id="@+id/help_button"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/help" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/SettingsHeader"
+            android:text="@string/height_calibration" />
+
+        <RadioGroup
+            android:id="@+id/calibration_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/calibration_auto"
+                style="@style/SettingsOption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/calibration_auto" />
+
+            <RadioButton
+                android:id="@+id/calibration_manual"
+                style="@style/SettingsOption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/calibration_manual" />
+
+            <RadioButton
+                android:id="@+id/calibration_gps"
+                style="@style/SettingsOption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/calibration_gps" />
+
+            <RadioButton
+                android:id="@+id/calibration_weather"
+                style="@style/SettingsOption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/calibration_weather" />
+        </RadioGroup>
+
+        <LinearLayout
+            android:id="@+id/manual_height_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="32dp">
+
+            <EditText
+                android:id="@+id/manual_height"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no" />
+
+            <TextView
+                android:id="@+id/manual_height_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/SettingsHeader"
+            android:text="@string/calibration_timing" />
+
+        <RadioGroup
+            android:id="@+id/timing_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/timing_start"
+                    style="@style/SettingsOption"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/timing_start" />
+
+                <RadioButton
+                    android:id="@+id/timing_continuous"
+                    style="@style/SettingsOption"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/timing_continuous" />
+            </LinearLayout>
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/calibrate_button"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/calibrate_now" />
+
+
+        <TextView
+            style="@style/SettingsHeader"
+            android:text="@string/history_span" />
+
+        <RadioGroup
+            android:id="@+id/history_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/history_30m"
+                style="@style/SettingsOption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/history_30m" />
+
+            <RadioButton
+                android:id="@+id/history_1h"
+                style="@style/SettingsOption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/history_1h" />
+
+            <RadioButton
+                android:id="@+id/history_6h"
+                style="@style/SettingsOption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/history_6h" />
+
+            <RadioButton
+                android:id="@+id/history_12h"
+                style="@style/SettingsOption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/history_12h" />
+
+            <RadioButton
+                android:id="@+id/history_24h"
+                style="@style/SettingsOption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/history_24h" />
+        </RadioGroup>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/record_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/record_background" />
+
+        <TextView
+            android:id="@+id/record_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceCaption" />
+
+        <TextView
+            style="@style/SettingsHeader"
+            android:text="@string/pressure_unit" />
+
+        <RadioGroup
+            android:id="@+id/pressure_unit_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/pressure_pa"
+                style="@style/SettingsOption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/hpa" />
+
+            <RadioButton
+                android:id="@+id/pressure_atm"
+                style="@style/SettingsOption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/atm" />
+
+            <RadioButton
+                android:id="@+id/pressure_mmhg"
+                style="@style/SettingsOption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/mmhg" />
+        </RadioGroup>
+
+        <TextView
+            style="@style/SettingsHeader"
+            android:text="@string/height_unit" />
+
+        <RadioGroup
+            android:id="@+id/height_unit_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/height_metric"
+                    style="@style/SettingsOption"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/metric" />
+
+                <RadioButton
+                    android:id="@+id/height_imperial"
+                    style="@style/SettingsOption"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/imperial" />
+            </LinearLayout>
+        </RadioGroup>
+    </LinearLayout>
+</ScrollView>

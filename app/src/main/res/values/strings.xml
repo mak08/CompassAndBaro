@@ -1,0 +1,95 @@
+<resources>
+    <string name="app_name">Bitsailor Compass &amp; Barometer</string>
+    <string name="main_title">Compass &amp; Barometer</string>
+    <string name="height">Height</string>
+    <string name="pressure">Pressure</string>
+    <string name="no_sensor">n/a</string>
+    <string name="collecting_data">Collecting data…</string>
+    <string name="unit_m_long">metres</string>
+    <string name="unit_ft_long">feet</string>
+    <string name="unit_m">m</string>
+    <string name="unit_ft">ft</string>
+    <string name="settings">Settings</string>
+    <string name="height_calibration">Height calibration</string>
+    <string name="calibration_auto">Standard atmosphere</string>
+    <string name="calibration_manual">Manual (enter current height)</string>
+    <string name="calibration_gps">GPS altitude</string>
+    <string name="calibration_weather">Weather service (sea-level pressure)</string>
+    <string name="height_unit">Height unit</string>
+    <string name="metric">Metric (m)</string>
+    <string name="imperial">Imperial (ft)</string>
+    <string name="history_span">Pressure history</string>
+    <string name="history_30m">30 minutes</string>
+    <string name="history_1h">1 hour</string>
+    <string name="history_6h">6 hours</string>
+    <string name="history_12h">12 hours</string>
+    <string name="history_24h">24 hours</string>
+    <string name="pressure_unit">Pressure unit</string>
+    <string name="hpa">hPa</string>
+    <string name="atm">atm</string>
+    <string name="mmhg">mmHg</string>
+    <string name="calibration_timing">Calibrate (GPS / weather)</string>
+    <string name="timing_start">At app start</string>
+    <string name="timing_continuous">Continuous</string>
+    <string name="calibrate_now">Calibrate now</string>
+    <string name="calibrating">Calibration requested</string>
+    <string name="record_background">Record pressure in the background (24 hours)</string>
+    <string name="record_inactive">Off. Samples are only taken while the app is open.</string>
+    <string name="record_active">Recording every 10 minutes until %1$s, then switches off automatically.</string>
+    <string name="record_notification_title">Recording pressure</string>
+    <string name="record_notification_text">Until %1$s (every 10 minutes in the background)</string>
+    <string name="record_notification_channel">Pressure recording</string>
+    <string name="record_stop">Stop</string>
+    <string name="help">Help</string>
+    <string name="baro_ok">Barometer OK</string>
+    <string name="baro_waiting">Barometer: waiting</string>
+    <string name="baro_missing">No barometer</string>
+    <string name="compass_high">Compass: high</string>
+    <string name="compass_medium">Compass: medium</string>
+    <string name="compass_low">Compass: low</string>
+    <string name="compass_unreliable">Compass: unreliable</string>
+    <string name="compass_waiting">Compass: waiting</string>
+    <string name="compass_missing">No compass</string>
+    <string name="status_standard">Height: standard atmosphere (1013.25 hPa)</string>
+    <string name="status_manual">Height: calibrated to %1$s %2$s</string>
+    <string name="status_no_permission">Height: location permission needed (see Settings)</string>
+    <string name="status_gps_wait">Height: waiting for GPS fix…</string>
+    <string name="status_gps_ok">Height: calibrated by GPS at %1$s</string>
+    <string name="status_gps_failed">Height: no usable GPS fix, using last reference</string>
+    <string name="status_weather_wait">Height: fetching sea-level pressure…</string>
+    <string name="status_weather_ok">Height: calibrated by weather service at %1$s</string>
+    <string name="status_weather_failed">Height: weather service unavailable, using last reference</string>
+    <string name="help_text"><![CDATA[
+<h2>Height calibration</h2>
+<p>The height is computed from the barometric pressure and a sea-level reference pressure. The options differ in how that reference is found.</p>
+<ul>
+<li><b>Standard atmosphere:</b> uses a fixed 1013.25 hPa. No setup needed, but real sea-level pressure varies with the weather, so the absolute height can be off by 250 m or more, and weather changes look like height changes.</li>
+<li><b>Manual:</b> you enter your current height and the app calibrates against it. Accurate as long as the weather stays stable; recalibrate when it changes. The field starts with the last calibrated height, or 100 m.</li>
+<li><b>GPS altitude:</b> the reference is recalibrated from the GPS altitude (mean-sea-level altitude on Android 14 and later). Needs location permission and a view of the sky; fixes with a poor vertical accuracy are ignored.</li>
+<li><b>Weather service:</b> the current sea-level pressure for your location is fetched from open-meteo.com. Needs location permission and an internet connection. Only your approximate coordinates are sent.</li>
+</ul>
+<p>If GPS or the service is unavailable, the last reference is kept; before the first one, the standard atmosphere is used.</p>
+
+<h2>Calibrate (GPS / weather)</h2>
+<ul>
+<li><b>At app start:</b> calibration runs once when the app starts and again whenever you change the mode. Use <b>Calibrate now</b> to repeat it at any time; in manual mode it recalibrates to the entered height. The button is disabled for the standard atmosphere and for continuous calibration.</li>
+<li><b>Continuous:</b> GPS calibration repeats about every 10 minutes and weather calibration about every 30 minutes while the app is open.</li>
+</ul>
+
+<h2>Pressure history</h2>
+<p>The time span shown by the graph: 30 minutes up to 24 hours. Up to 24 hours of data are stored on the device, but only while the app is open.</p>
+
+<h2>Background recording</h2>
+<p>When switched on, the barometer is recorded every 10 minutes even while the app is in the background or closed (every 10 seconds while the app is open). Recording switches off automatically after 24 hours; switch it on again to continue. A notification is shown while recording, with a Stop button.</p>
+<p><b>Power:</b> this uses a little more battery. The barometer itself uses very little power, and readings are batched so the phone can sleep between them, but the recording service keeps running permanently and some phones may limit it with battery optimisation. Switch it off when you do not need it. Recording does not resume after a reboot.</p>
+
+<h2>Pressure unit</h2>
+<p>hPa, atm or mmHg. Applies to the pressure field and the graph. In the graph, pressure increases downwards so that the height scale on the right increases upwards.</p>
+
+<h2>Height unit</h2>
+<p>Metric (metres) or imperial (feet). Applies to the height field, the manual height and the graph.</p>
+
+<h2>Status line</h2>
+<p>The bottom of the main screen shows whether the barometer works, the compass accuracy (move the phone in a figure eight if it is low) and the current height calibration.</p>
+]]></string>
+</resources>
