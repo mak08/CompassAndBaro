@@ -52,6 +52,37 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/pressure_panel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_panel_light"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pressure"
+                    style="@style/FieldLabel" />
+
+                <TextView
+                    android:id="@+id/pressure_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    style="@style/FieldValue" />
+
+                <TextView
+                    android:id="@+id/pressure_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/FieldLabel" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/height_panel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
@@ -81,35 +112,6 @@
                     style="@style/FieldLabel" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_panel_light"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:padding="8dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/pressure"
-                    style="@style/FieldLabel" />
-
-                <TextView
-                    android:id="@+id/pressure_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="--"
-                    style="@style/FieldValue" />
-
-                <TextView
-                    android:id="@+id/pressure_unit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/FieldLabel" />
-            </LinearLayout>
         </LinearLayout>
 
         <net.bitsailor.compbaro.PressureGraphView

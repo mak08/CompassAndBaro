@@ -42,11 +42,11 @@ public final class Prefs {
     public enum PressureUnit {
         // The stored name PA is kept for compatibility; values are shown in hPa.
         PA("hPa", 0.01, "%.1f", 1.0),
-        ATM("atm", 1.0 / 101325.0, "%.5f", 0.0),
-        MMHG("mmHg", 1.0 / 133.322387415, "%.1f", 0.0);
+        ATM("atm", 1.0 / 101325.0, "%.5f", 0.001),
+        MMHG("mmHg", 1.0 / 133.322387415, "%.1f", 1.0);
 
         public final String label;
-        /** Smallest tick spacing on the graph scale, in this unit. */
+        /** Tick spacing on the graph scale when space permits (one whole unit), in this unit. */
         public final double minScaleStep;
         private final double perPa;
         private final String format;

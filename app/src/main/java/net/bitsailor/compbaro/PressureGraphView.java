@@ -116,8 +116,14 @@ public class PressureGraphView extends View {
         // Left axis: pressure, linear in the display unit.
         double vMin = unit.fromPa(minPa);
         double vMax = unit.fromPa(maxPa);
-        double step = Math.max(niceStep((vMax - vMin) / 4), unit.minScaleStep);
+        // Label every whole unit (1 hPa, 0.001 atm, 1 mmHg) unless the labels would overlap.
+        double step = unit.minScaleStep;
+        double maxLabels = Math.max(2, (bottom - top) / (14 * density));
+        if ((vMax - vMin) / step > maxLabels) {
+            step = Math.max(niceStep((vMax - vMin) / maxLabels), step);
+        }
         text.setTextAlign(Paint.Align.RIGHT);
+        text.setFakeBoldText(pressureUp);
         for (double v = Math.ceil(vMin / step) * step; v <= vMax; v += step) {
             float y = yOf(v, vMin, vMax, top, bottom);
             canvas.drawLine(left, y, right, y, grid);
@@ -130,12 +136,14 @@ public class PressureGraphView extends View {
         double k = imperial ? 1 / 0.3048 : 1.0;
         double hStep = niceStep((hMax - hMin) * k / 4);
         text.setTextAlign(Paint.Align.LEFT);
+        text.setFakeBoldText(!pressureUp);
         for (double h = Math.ceil(hMin * k / hStep) * hStep; h <= hMax * k; h += hStep) {
             double pa = paAtHeight(h / k);
             float y = yOf(pa, minPa, maxPa, top, bottom);
             canvas.drawText(formatTick(h, hStep), right + 4 * density, y + 4 * density, text);
         }
 
+        text.setFakeBoldText(false);
         path.reset();
         boolean pen = false;
         long prev = 0;

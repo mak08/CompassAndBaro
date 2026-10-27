@@ -15,6 +15,7 @@ import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.ViewConfiguration;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -35,6 +36,9 @@ public class MainActivity extends AppCompatActivity
     private Sensor pressureSensor;
     private Prefs prefs;
     private GestureDetector gestures;
+    private float downX;
+    private float downY;
+    private boolean gestureCancelled;
 
     private CompassView compass;
     private PressureGraphView graph;
@@ -84,6 +88,24 @@ public class MainActivity extends AppCompatActivity
         rotationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
         pressureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
 
+        compass.setOnClickListener(v -> {
+            prefs.setTrueNorthEnabled(!prefs.isTrueNorthEnabled());
+            updateDeclination();
+        });
+        findViewById(R.id.height_panel).setOnClickListener(v -> {
+            prefs.setImperial(!prefs.isImperial());
+            refreshReadings();
+        });
+        findViewById(R.id.pressure_panel).setOnClickListener(v -> {
+            Prefs.PressureUnit[] units = Prefs.PressureUnit.values();
+            prefs.setPressureUnit(units[(prefs.getPressureUnit().ordinal() + 1) % units.length]);
+            refreshReadings();
+        });
+        graph.setOnClickListener(v -> {
+            prefs.setPressureUp(!prefs.isPressureUp());
+            refreshGraph();
+        });
+
         gestures = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float vx, float vy) {
@@ -128,6 +150,29 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         gestures.onTouchEvent(ev);
+        switch (ev.getActionMasked()) {
+            case MotionEvent.ACTION_DOWN:
+                downX = ev.getX();
+                downY = ev.getY();
+                gestureCancelled = false;
+                break;
+            case MotionEvent.ACTION_MOVE:
+                // A drag is a swipe, not a tap: cancel the pressed view so it does not click.
+                if (!gestureCancelled && Math.hypot(ev.getX() - downX, ev.getY() - downY)
+                        > ViewConfiguration.get(this).getScaledTouchSlop()) {
+                    gestureCancelled = true;
+                    MotionEvent cancel = MotionEvent.obtain(ev);
+                    cancel.setAction(MotionEvent.ACTION_CANCEL);
+                    super.dispatchTouchEvent(cancel);
+                    cancel.recycle();
+                }
+                break;
+            default:
+                break;
+        }
+        if (gestureCancelled) {
+            return true;
+        }
         return super.dispatchTouchEvent(ev);
     }
 
@@ -263,6 +308,16 @@ public class MainActivity extends AppCompatActivity
     private void refreshUnits() {
         heightUnitView.setText(prefs.isImperial() ? R.string.unit_ft_long : R.string.unit_m_long);
         pressureUnitView.setText(prefs.getPressureUnit().label);
+    }
+
+    private void refreshReadings() {
+        refreshUnits();
+        if (!Float.isNaN(smoothedPa)) {
+            pressureView.setText(prefs.getPressureUnit().formatValue(smoothedPa));
+            float height = SensorManager.getAltitude(prefs.getReferencePa() / 100f, smoothedPa / 100f);
+            heightView.setText(prefs.formatHeight(height));
+        }
+        refreshGraph();
     }
 
     private void refreshGraph() {
